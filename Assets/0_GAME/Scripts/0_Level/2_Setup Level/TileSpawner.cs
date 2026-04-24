@@ -12,15 +12,13 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
 
     [Header("Tile Spawn in level")]
     public List<TileController> tilesInLevel = new List<TileController>();
+    public List<TileController> clickableTiles = new List<TileController>();
     public List<Vector3> tilesPosInLevel = new List<Vector3>();
 
     #region Spawn Tiles
-    public /*List<TileController>*/ void SpawnTilesInLevel(List<RawTileData> rawTileDatas)
+    public void SpawnTilesInLevel(List<RawTileData> rawTileDatas)
     {
         ClearData();
-
-        //if (rawTileDatas == null || rawTileDatas.Count == 0)
-        //    return tilesInLevel;
 
         //Kéo Spawner vể (0,0) để không lệch Camera
         Vector2 center = CalculateSpawnCenter(rawTileDatas);
@@ -46,13 +44,11 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
 
         LevelOverlapProcessor.CaculateOverlaps(tilesInLevel);
 
-        UpdateStateAllTiles(tilesInLevel);
-
-        //return tilesInLevel;
+        InitStateAllTiles(tilesInLevel);
     }
     #endregion
 
-    public void UpdateStateAllTiles(List<TileController> tiles)
+    public void InitStateAllTiles(List<TileController> tiles)
     {
         foreach (TileController tile in tiles)
         {
@@ -60,6 +56,35 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
         }
     }
 
+    public void UpdateClickableTile(TileController tile, bool canClick)
+    {
+        if (tile == null) return;
+
+        if (!tile.gameObject.activeSelf)
+        {
+            clickableTiles.Remove(tile);
+            return;
+        }
+
+        if (canClick && !clickableTiles.Contains(tile))
+        {
+            clickableTiles.Add(tile);
+        }
+        else if (!canClick && clickableTiles.Contains(tile))
+        {
+            clickableTiles.Remove(tile);
+        }
+    }
+
+
+
+    public void ClearTile(TileController tile)
+    {
+        tilesInLevel.Remove(tile);
+        clickableTiles.Remove(tile);
+    }
+
+    #region RESET
     public void ClearData()
     {
         for (int i = 0; i < tilesInLevel.Count; i++)
@@ -73,6 +98,7 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
             tilesPosInLevel.Clear();
         }
     }
+    #endregion
 
     #region Helper Methods
     private Vector2 CalculateSpawnCenter(List<RawTileData> spawnDatas)

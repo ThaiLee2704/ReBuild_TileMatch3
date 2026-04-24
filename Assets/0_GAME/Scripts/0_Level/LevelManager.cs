@@ -34,10 +34,5 @@ public class LevelManager : Tile_Singleton<LevelManager>
             return;
 
         TileSpawner.Instance.SpawnTilesInLevel(rawTileDatas);
-        //List<TileController> tilesInLevel = TileSpawner.Instance.SpawnTilesInLevel(rawTileDatas);
-        //if (tilesInLevel == null || tilesInLevel.Count == 0)
-        //    return;
-
-        //LevelOverlapProcessor.CaculateOverlaps(tilesInLevel);
     }
 }

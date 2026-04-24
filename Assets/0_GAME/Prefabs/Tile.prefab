@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7810832137705453746}
   - component: {fileID: 7510706747548361188}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4370950430367113535}
   - component: {fileID: 7035082561796758161}
   - component: {fileID: 8954067354962787583}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileData: {fileID: 0}
   tileGraphic: {fileID: 0}
+  moveSpeed: 5
 --- !u!114 &8954067354962787583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7618687051063536804}
   - component: {fileID: 3465152234675476797}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1820017377008360058}
   - component: {fileID: 672624098950332165}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
