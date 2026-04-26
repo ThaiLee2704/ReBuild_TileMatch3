@@ -15,7 +15,9 @@ public class TileController : MonoBehaviour
     private Tween moveTween;
     [SerializeField] private float moveSpeed = 5f;
     public float moveDuration { get; private set; } = 0f;
+    public float slideDuration { get; private set; } = 0f;
     public float bouceDuration = 1f;
+    public Vector3 OriginalPos { get; private set; }
 
     private void Awake()
     {
@@ -27,8 +29,12 @@ public class TileController : MonoBehaviour
             TileGraphic = GetComponentInChildren<TileGraphic>();
     }
 
-    public void SetUp(int id, int orderLayer, Sprite icon)
+    public void SetUp(int id, int orderLayer, Sprite icon, Vector3 originalPos)
     {
+        ResetScale();
+
+        OriginalPos = originalPos;
+
         TileData.SetUpData(id, orderLayer);
         TileGraphic.SetUpGraphic(icon, orderLayer);
     }
@@ -50,15 +56,20 @@ public class TileController : MonoBehaviour
     public void MoveToSlot(Transform slot)
     {
         moveDuration = Vector3.Distance(transform.position, slot.position) / moveSpeed;
+
+        TileGraphic.BringUpSortingOrder();
+
         moveTween = Tween.PositionAtSpeed(transform, slot.position, moveSpeed, Ease.Linear)
-            .OnComplete( () => Tween.Scale(transform, 0.8f, bouceDuration, Ease.OutBounce));
+            .OnComplete(() => Tween.Scale(transform, 0.8f, bouceDuration, Ease.OutBounce));
     }
 
-    public void Slide(Transform slot)
+    public void Slide(Transform slot, float delay)
     {
         moveTween.Stop();
-        moveDuration = Vector3.Distance(transform.position, slot.position) / moveSpeed;
-        moveTween = Tween.PositionAtSpeed(transform, slot.position, moveSpeed, Ease.Linear)
+
+        slideDuration = Vector3.Distance(transform.position, slot.position) / moveSpeed;
+
+        moveTween = Tween.PositionAtSpeed(transform, slot.position, moveSpeed, Ease.Linear, startDelay: delay)
             .OnComplete(() => Tween.Scale(transform, 0.8f, bouceDuration, Ease.OutBounce));
     }
 
@@ -70,6 +81,31 @@ public class TileController : MonoBehaviour
             lowerTile.UpdateState();
         }
 
-        TileData.ClearLowerTiles();
+        //TileData.ClearLowerTiles();
+    }
+
+    public void MoveBackUndo()
+    {
+        moveTween.Stop();
+
+        moveTween = Tween.LocalPositionAtSpeed(transform, OriginalPos, moveSpeed, Ease.Linear)
+            .OnComplete(() => Tween.Scale(transform, 1f, bouceDuration, Ease.OutBounce));
+    }
+
+    public void UndoTileData()
+    {
+        foreach (var lowerTile in TileData.LowerTiles)
+        {
+            lowerTile.TileData.UpperTiles.Add(this);
+            lowerTile.UpdateState();
+        }
+
+        TileGraphic.BringDownSortingOrder();
+        this.UpdateState();
+    }
+
+    private void ResetScale()
+    {
+        this.transform.localScale = Vector3.one;
     }
 }

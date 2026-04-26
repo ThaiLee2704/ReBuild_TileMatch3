@@ -25,8 +25,8 @@ public class TileData : MonoBehaviour
         UpperTiles.Remove(tile);
     }
 
-    public void ClearLowerTiles()
-    {
-        LowerTiles.Clear();
-    }
+    //public void ClearLowerTiles()
+    //{
+    //    LowerTiles.Clear();
+    //}
 }

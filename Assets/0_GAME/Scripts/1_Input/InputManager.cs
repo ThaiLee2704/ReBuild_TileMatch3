@@ -63,10 +63,6 @@ public class InputManager : Tile_Singleton<InputManager>
         //Handle Tile Click
         if (currentTile == tile && !TrayManager.Instance.TrayDomain.IsFull)
             Tile_GameManager.Instance.HandlePickTile(currentTile);
-        //Observer:
-        //1. TrayManager check full and get slot
-        //2. TileSpawner delete tile in clickableTile and tileSpawnInLevel
-        //3. TileController update 
 
         currentTile = null;
     }

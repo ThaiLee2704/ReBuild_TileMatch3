@@ -176,9 +176,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59b84bca9a788a4fa3de9c836047c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileData: {fileID: 0}
-  tileGraphic: {fileID: 0}
-  moveSpeed: 5
+  TileData: {fileID: 0}
+  TileGraphic: {fileID: 0}
+  moveSpeed: 50
+  bouceDuration: 1
 --- !u!114 &8954067354962787583
 MonoBehaviour:
   m_ObjectHideFlags: 0

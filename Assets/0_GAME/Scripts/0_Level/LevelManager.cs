@@ -13,7 +13,6 @@ public class LevelManager : Tile_Singleton<LevelManager>
     protected override void Awake()
     {
         currentLevel = level;
-
     }
 
     private void Start()
@@ -34,5 +33,27 @@ public class LevelManager : Tile_Singleton<LevelManager>
             return;
 
         TileSpawner.Instance.SpawnTilesInLevel(rawTileDatas);
+    }
+
+    [Button]
+    public void NextLevel()
+    {
+        ClearOldLevelData();
+        level++;
+        LoadLevel();
+    }
+
+    [Button]
+    public void ReplayLevel()
+    {
+        ClearOldLevelData();
+        level = currentLevel;
+        LoadLevel();
+    }
+
+    private void ClearOldLevelData()
+    {
+        TileSpawner.Instance.ClearTilesInLevel();
+        TrayManager.Instance.ClearTray();
     }
 }

@@ -13,12 +13,11 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
     [Header("Tile Spawn in level")]
     public List<TileController> tilesInLevel = new List<TileController>();
     public List<TileController> clickableTiles = new List<TileController>();
-    public List<Vector3> tilesPosInLevel = new List<Vector3>();
 
     #region Spawn Tiles
     public void SpawnTilesInLevel(List<RawTileData> rawTileDatas)
     {
-        ClearData();
+        ClearTilesInLevel();
 
         //Kéo Spawner vể (0,0) để không lệch Camera
         Vector2 center = CalculateSpawnCenter(rawTileDatas);
@@ -36,10 +35,9 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
             TileController tile = tileObject.GetComponent<TileController>();
             Sprite icon = fruitSprites[data.VisualId];
 
-            tile.SetUp(data.Id, data.OrderLayer, icon);
+            tile.SetUp(data.Id, data.OrderLayer, icon, new Vector3(data.X, data.Y, 0f));
 
             tilesInLevel.Add(tile);
-            tilesPosInLevel.Add(new Vector3(data.X, data.Y, 0f));
         }
 
         LevelOverlapProcessor.CaculateOverlaps(tilesInLevel);
@@ -76,16 +74,72 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
         }
     }
 
-
-
     public void ClearTile(TileController tile)
     {
         tilesInLevel.Remove(tile);
         clickableTiles.Remove(tile);
     }
 
+    public void ReturnTile(TileController tile)
+    {
+        tilesInLevel.Add(tile);
+    }
+
+    public int CountTilesInLevel(int targetIndex)
+    {
+        int count = 0;
+        foreach (TileController tile in tilesInLevel)
+        {
+            if (tile.TileData.Id == targetIndex)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public Dictionary<int, int> CountTilesEachId()
+    {
+        //Đếm số luợng tile của từng Id trong level
+        Dictionary<int, int> countTilesEachId = new Dictionary<int, int>();
+
+        foreach (TileController tile in tilesInLevel)
+        {
+            if (tile.gameObject.activeSelf)
+            {
+                int id = tile.TileData.Id;
+                if (countTilesEachId.ContainsKey(id))
+                    countTilesEachId[id]++;
+                else
+                    countTilesEachId[id] = 1;
+            }
+        }
+
+        return countTilesEachId;
+    }
+
+    public int FindRandomIdWithEnoughTiles(int amount)
+    {
+        Dictionary<int,int> countTilesEachId = CountTilesEachId();
+
+        List<int> validIds = new List<int>();
+
+        foreach (var tileId in countTilesEachId.Keys)
+        {
+            if (countTilesEachId[tileId] >= amount)
+                validIds.Add(tileId);
+        }
+
+        if (validIds.Count == 0) 
+            return -1;
+
+        int randomValidId = Random.Range(0, validIds.Count);
+        return validIds[randomValidId];
+    }
+
     #region RESET
-    public void ClearData()
+    public void ClearTilesInLevel()
     {
         for (int i = 0; i < tilesInLevel.Count; i++)
         {
@@ -94,9 +148,9 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
                 tilesInLevel[i].gameObject.SetActive(false);
             }
 
-            tilesInLevel.Clear();
-            tilesPosInLevel.Clear();
         }
+
+        tilesInLevel.Clear();
     }
     #endregion
 
