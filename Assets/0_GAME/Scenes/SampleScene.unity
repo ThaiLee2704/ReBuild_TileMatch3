@@ -1957,7 +1957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &962507186
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2024,7 +2024,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 25815826}
         m_TargetAssemblyTypeName: Tile_GameManager, Assembly-CSharp
-        m_MethodName: HandleAutoMatch3
+        m_MethodName: HandleShuffle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2790,7 +2790,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ae75dba3f765aad4586a9dd1d4e6efeb, type: 3}
   - {fileID: 21300000, guid: 29c75e25900aa264f9db6f0540d3e70b, type: 3}
   - {fileID: 21300000, guid: 01011ccef9e844147b936f74a4e6877d, type: 3}
-  tilesInLevel: []
+  tilesOnBoard: []
   clickableTiles: []
 --- !u!4 &1857448212
 Transform:

@@ -56,7 +56,7 @@ public static class FileDecoder
             return new List<RawTileData>();
         }
 
-        ShuffleVisualIds(visualIds);
+        //ShuffleVisualIds(visualIds);
 
         var rawTileDatas = new List<RawTileData>(positions.Count);
 

@@ -179,7 +179,8 @@ MonoBehaviour:
   TileData: {fileID: 0}
   TileGraphic: {fileID: 0}
   moveSpeed: 50
-  bouceDuration: 1
+  bouceDuration: 0.75
+  ShuffleMoveDuration: 1
 --- !u!114 &8954067354962787583
 MonoBehaviour:
   m_ObjectHideFlags: 0

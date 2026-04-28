@@ -99,10 +99,6 @@ public class TrayDomainProcessor : MonoBehaviour
         realTilesInTray.Clear();
     }
 
-    //Test Auto Match3 V2
-
-
-
     //Test Auto Match3 V1
     public Dictionary<int, int> GetTrayTileFrequencies()
     {

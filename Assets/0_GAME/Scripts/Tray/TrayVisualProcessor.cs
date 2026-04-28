@@ -105,8 +105,8 @@ public class TrayVisualProcessor : MonoBehaviour
                 if (count == 3)
                 {
                     visualTilesInTray[i - 1].TileGraphic.FadeOut(0);
-                    visualTilesInTray[i].TileGraphic.FadeOut(.05f);
-                    visualTilesInTray[i + 1].TileGraphic.FadeOut(.1f);
+                    visualTilesInTray[i].TileGraphic.FadeOut(.0375f);
+                    visualTilesInTray[i + 1].TileGraphic.FadeOut(.075f);
 
                     undoHistory.Remove(visualTilesInTray[i - 1]);
                     undoHistory.Remove(visualTilesInTray[i]);
@@ -129,6 +129,12 @@ public class TrayVisualProcessor : MonoBehaviour
 
     public void ClearVisualTray()
     {
+        for (int i = 0; i < visualTilesInTray.Count; i++)
+        {
+            if (visualTilesInTray[i] != null)
+                visualTilesInTray[i].gameObject.SetActive(false);
+        }
+
         visualTilesInTray.Clear();
         undoHistory.Clear();
     }

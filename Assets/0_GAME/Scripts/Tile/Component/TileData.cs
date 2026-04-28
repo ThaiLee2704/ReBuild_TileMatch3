@@ -18,6 +18,12 @@ public class TileData : MonoBehaviour
         LowerTiles.Clear();
     }
 
+    //Test shuffle tile
+    public void SetId(int id)
+    {
+        Id = id;
+    }
+
     public bool HaventUpperTiles() => UpperTiles.Count == 0;
 
     public void RemoveUpperTile(TileController tile)

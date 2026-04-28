@@ -11,13 +11,17 @@ public class TileController : MonoBehaviour
     public TileData TileData;
     public TileGraphic TileGraphic;
 
-    [Header("Tile info")]
+    [Header("Tile move settings")]
     private Tween moveTween;
     [SerializeField] private float moveSpeed = 5f;
     public float moveDuration { get; private set; } = 0f;
     public float slideDuration { get; private set; } = 0f;
     public float bouceDuration = 1f;
     public Vector3 OriginalPos { get; private set; }
+
+    [Header("Shuffle settings")]
+    public float ShuffleMoveDuration;
+    private Tween shuffleTween;
 
     private void Awake()
     {
@@ -59,7 +63,7 @@ public class TileController : MonoBehaviour
 
         TileGraphic.BringUpSortingOrder();
 
-        moveTween = Tween.PositionAtSpeed(transform, slot.position, moveSpeed, Ease.Linear)
+        moveTween = Tween.PositionAtSpeed(transform, slot.position, moveSpeed, Ease.OutQuad)
             .OnComplete(() => Tween.Scale(transform, 0.8f, bouceDuration, Ease.OutBounce));
     }
 
@@ -68,8 +72,8 @@ public class TileController : MonoBehaviour
         moveTween.Stop();
 
         slideDuration = Vector3.Distance(transform.position, slot.position) / moveSpeed;
-
-        moveTween = Tween.PositionAtSpeed(transform, slot.position, moveSpeed, Ease.Linear, startDelay: delay)
+        float slideSpeed = 15f;
+        moveTween = Tween.PositionAtSpeed(transform, slot.position, slideSpeed, Ease.Linear, startDelay: delay)
             .OnComplete(() => Tween.Scale(transform, 0.8f, bouceDuration, Ease.OutBounce));
     }
 
@@ -102,6 +106,43 @@ public class TileController : MonoBehaviour
 
         TileGraphic.BringDownSortingOrder();
         this.UpdateState();
+    }
+
+    //Test shuffle tile
+    public void StopMoveTween()
+    {
+        moveTween.Stop();
+    }
+
+    public void SetupTileAfterShuffle(int newId, Sprite newIcon)
+    {
+        TileData.SetId(newId);
+
+        TileGraphic.Icon.sprite = newIcon;
+        TileGraphic.Bg.sortingOrder = TileData.OrderLayer * 10;
+        TileGraphic.Icon.sortingOrder = TileData.OrderLayer * 10 + 1;
+
+        UpdateState();
+    }
+
+    public void MoveShuffle(Vector3 center)
+    {
+        moveTween.Stop();
+        shuffleTween.Stop();
+
+        //Tween.Scale(tile.transform, 0.9f, 0.1f, Ease.InOutQuad)
+        //    .OnComplete(tile.transform, t => Tween.Scale(t, 1f, 0.1f, Ease.OutQuad));
+
+        Vector3 startPos = transform.position;
+        Vector3 centerPos = new Vector3(center.x, center.y, startPos.z);
+
+        Sequence shuffleSequence = Sequence.Create()
+            .Chain(Tween.Position(transform, centerPos, ShuffleMoveDuration / 2f, Ease.InOutQuad))
+            .Group(Tween.Alpha(TileGraphic.Icon, 0f, ShuffleMoveDuration / 2f, Ease.Linear))
+            .Group(Tween.Alpha(TileGraphic.Bg, 0f, ShuffleMoveDuration / 2f, Ease.Linear))
+            .Chain(Tween.Position(transform, startPos, ShuffleMoveDuration / 2f, Ease.InOutQuad))
+            .Group(Tween.Alpha(TileGraphic.Icon, 1f, ShuffleMoveDuration / 2f, Ease.Linear))
+            .Group(Tween.Alpha(TileGraphic.Bg, 1f, ShuffleMoveDuration / 2f, Ease.Linear));
     }
 
     private void ResetScale()

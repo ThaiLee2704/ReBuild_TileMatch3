@@ -6,13 +6,16 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
 {
     [Header("Spawn Settings")]
     [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private Sprite[] fruitSprites;
+    [SerializeField] public Sprite[] fruitSprites;
     //[SerializeField] private float offsetYSpawn = 30f;
     //[SerializeField] private float offsetXSpawn = 30f;
 
     [Header("Tile Spawn in level")]
-    public List<TileController> tilesInLevel = new List<TileController>();
+    public List<TileController> tilesOnBoard = new List<TileController>();
     public List<TileController> clickableTiles = new List<TileController>();
+
+    private Vector2 center;
+    public Vector2 CenterPos => center;
 
     #region Spawn Tiles
     public void SpawnTilesInLevel(List<RawTileData> rawTileDatas)
@@ -20,7 +23,7 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
         ClearTilesInLevel();
 
         //Kéo Spawner vể (0,0) để không lệch Camera
-        Vector2 center = CalculateSpawnCenter(rawTileDatas);
+        center = CalculateSpawnCenter(rawTileDatas);
         this.transform.position = new Vector3(-center.x, -center.y, transform.position.z);
 
         for (int i = 0; i < rawTileDatas.Count; i++)
@@ -34,15 +37,16 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
 
             TileController tile = tileObject.GetComponent<TileController>();
             Sprite icon = fruitSprites[data.VisualId];
+            Vector3 originalTilePos = new Vector3(data.X, data.Y, 0f);
 
-            tile.SetUp(data.Id, data.OrderLayer, icon, new Vector3(data.X, data.Y, 0f));
+            tile.SetUp(data.Id, data.OrderLayer, icon, originalTilePos);
 
-            tilesInLevel.Add(tile);
+            tilesOnBoard.Add(tile);
         }
 
-        LevelOverlapProcessor.CaculateOverlaps(tilesInLevel);
+        LevelOverlapProcessor.CaculateOverlaps(tilesOnBoard);
 
-        InitStateAllTiles(tilesInLevel);
+        InitStateAllTiles(tilesOnBoard);
     }
     #endregion
 
@@ -76,19 +80,19 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
 
     public void ClearTile(TileController tile)
     {
-        tilesInLevel.Remove(tile);
+        tilesOnBoard.Remove(tile);
         clickableTiles.Remove(tile);
     }
 
     public void ReturnTile(TileController tile)
     {
-        tilesInLevel.Add(tile);
+        tilesOnBoard.Add(tile);
     }
 
-    public int CountTilesInLevel(int targetIndex)
+    public int CountTilesOnBoard(int targetIndex)
     {
         int count = 0;
-        foreach (TileController tile in tilesInLevel)
+        foreach (TileController tile in tilesOnBoard)
         {
             if (tile.TileData.Id == targetIndex)
             {
@@ -104,7 +108,7 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
         //Đếm số luợng tile của từng Id trong level
         Dictionary<int, int> countTilesEachId = new Dictionary<int, int>();
 
-        foreach (TileController tile in tilesInLevel)
+        foreach (TileController tile in tilesOnBoard)
         {
             if (tile.gameObject.activeSelf)
             {
@@ -121,7 +125,7 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
 
     public int FindRandomIdWithEnoughTiles(int amount)
     {
-        Dictionary<int,int> countTilesEachId = CountTilesEachId();
+        Dictionary<int, int> countTilesEachId = CountTilesEachId();
 
         List<int> validIds = new List<int>();
 
@@ -131,7 +135,7 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
                 validIds.Add(tileId);
         }
 
-        if (validIds.Count == 0) 
+        if (validIds.Count == 0)
             return -1;
 
         int randomValidId = Random.Range(0, validIds.Count);
@@ -141,16 +145,13 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
     #region RESET
     public void ClearTilesInLevel()
     {
-        for (int i = 0; i < tilesInLevel.Count; i++)
+        for (int i = 0; i < tilesOnBoard.Count; i++)
         {
-            if (tilesInLevel[i] != null)
-            {
-                tilesInLevel[i].gameObject.SetActive(false);
-            }
-
+            if (tilesOnBoard[i] != null)
+                tilesOnBoard[i].gameObject.SetActive(false);
         }
 
-        tilesInLevel.Clear();
+        tilesOnBoard.Clear();
     }
     #endregion
 
