@@ -178,9 +178,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TileData: {fileID: 0}
   TileGraphic: {fileID: 0}
-  moveSpeed: 50
+  TileAnimation: {fileID: 0}
+  moveSpeed: 30
   bouceDuration: 0.75
-  ShuffleMoveDuration: 1
+  shuffleInDuration: 0.5
+  shuffleOutDuration: 0.5
 --- !u!114 &8954067354962787583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1820017377008360058}
   - component: {fileID: 672624098950332165}
+  - component: {fileID: 5708220040065319260}
   m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
@@ -325,3 +328,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bg: {fileID: 3465152234675476797}
   icon: {fileID: 7510706747548361188}
+--- !u!114 &5708220040065319260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198030404752383708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 105deef2a1a5a814d8af83145a896584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cacheOrder: 0000000000000000

@@ -44,7 +44,11 @@ public class InputManager : Tile_Singleton<InputManager>
             return;
         }
 
+        //Particle Tile Click
+        tile.TileAnimation.PlayHoldTileAnim();
+
         currentTile = tile;
+
     }
 
     private void HandleMouseUpClick()
@@ -56,13 +60,17 @@ public class InputManager : Tile_Singleton<InputManager>
 
         if (currentTile != tile)
         {
+            currentTile.TileAnimation.StopHoldTileAnim();
             currentTile = null;
             return;
         }
 
         //Handle Tile Click
         if (currentTile == tile && !TrayManager.Instance.TrayDomain.IsFull)
+        {
+            currentTile.TileAnimation.StopHoldTileAnim();
             Tile_GameManager.Instance.HandlePickTile(currentTile);
+        }
 
         currentTile = null;
     }

@@ -9,8 +9,9 @@ public class TrayDomainProcessor : MonoBehaviour
 
     public bool IsFull => realTilesInTray.Count >= TRAY_SIZE;
 
-    private int theLastIdMatch3;
-    private int theLastIndex;
+    //private int theLastIdMatch3;
+    //private int theLastIndex;
+    private int insertRealIndex;
 
     public void InsertDomainTray(TileController newTile)
     {
@@ -20,7 +21,7 @@ public class TrayDomainProcessor : MonoBehaviour
         //    return;
         //}
 
-        int insertRealIndex = realTilesInTray.Count;
+        insertRealIndex = realTilesInTray.Count;
 
         for (int i = realTilesInTray.Count - 1; i >= 0; i--)
         {
@@ -32,6 +33,11 @@ public class TrayDomainProcessor : MonoBehaviour
         }
 
         realTilesInTray.Insert(insertRealIndex, newTile);
+    }
+
+    public Transform GetRealSlot()
+    {
+        return TrayManager.Instance.TrayVisual.slots[insertRealIndex];
     }
 
     public void CheckMatch3(TileController newTile)
@@ -81,7 +87,7 @@ public class TrayDomainProcessor : MonoBehaviour
                     realTilesInTray.RemoveAt(i);
                     removedCount++;
 
-                    theLastIndex = i;
+                    //theLastIndex = i;
 
                     if (removedCount == 3)
                         break;
@@ -89,13 +95,13 @@ public class TrayDomainProcessor : MonoBehaviour
             }
         }
 
-        theLastIdMatch3 = targerId;
+        //theLastIdMatch3 = targerId;
     }
 
     public void ClearDomainTray()
     {
-        theLastIdMatch3 = -1;
-        theLastIndex = -1;
+        //theLastIdMatch3 = -1;
+        //theLastIndex = -1;
         realTilesInTray.Clear();
     }
 

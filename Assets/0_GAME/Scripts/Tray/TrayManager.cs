@@ -25,6 +25,7 @@ public class TrayManager : Tile_Singleton<TrayManager>
     public Transform TrayPushSlot()
     {
         return TrayVisual.GetSlot();
+        //return TrayDomain.GetRealSlot();
     }
 
     public void TraySlideTilesAfterTileInserted()

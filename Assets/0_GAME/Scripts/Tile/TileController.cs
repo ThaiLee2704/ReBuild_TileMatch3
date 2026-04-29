@@ -10,6 +10,7 @@ public class TileController : MonoBehaviour
     [Header("Reference")]
     public TileData TileData;
     public TileGraphic TileGraphic;
+    public TileAnimation TileAnimation;
 
     [Header("Tile move settings")]
     private Tween moveTween;
@@ -20,8 +21,12 @@ public class TileController : MonoBehaviour
     public Vector3 OriginalPos { get; private set; }
 
     [Header("Shuffle settings")]
-    public float ShuffleMoveDuration;
-    private Tween shuffleTween;
+    private Vector3 originalPos;
+    [SerializeField] private float shuffleInDuration;
+    public float ShuffleInDuration => shuffleInDuration;
+    [SerializeField] private float shuffleOutDuration;
+    public float ShuffleOutDuration => shuffleOutDuration;
+    private Sequence shuffleSequence;
 
     private void Awake()
     {
@@ -31,6 +36,8 @@ public class TileController : MonoBehaviour
             TileData = GetComponent<TileData>();
         if (TileGraphic == null)
             TileGraphic = GetComponentInChildren<TileGraphic>();
+        if (TileAnimation == null)
+            TileAnimation = GetComponentInChildren<TileAnimation>();
     }
 
     public void SetUp(int id, int orderLayer, Sprite icon, Vector3 originalPos)
@@ -90,7 +97,7 @@ public class TileController : MonoBehaviour
 
     public void MoveBackUndo()
     {
-        moveTween.Stop();
+        //moveTween.Stop();
 
         moveTween = Tween.LocalPositionAtSpeed(transform, OriginalPos, moveSpeed, Ease.Linear)
             .OnComplete(() => Tween.Scale(transform, 1f, bouceDuration, Ease.OutBounce));
@@ -125,24 +132,31 @@ public class TileController : MonoBehaviour
         UpdateState();
     }
 
-    public void MoveShuffle(Vector3 center)
+    public void MoveInShuffle(Vector3 center)
     {
         moveTween.Stop();
-        shuffleTween.Stop();
+        shuffleSequence.Stop();
 
         //Tween.Scale(tile.transform, 0.9f, 0.1f, Ease.InOutQuad)
         //    .OnComplete(tile.transform, t => Tween.Scale(t, 1f, 0.1f, Ease.OutQuad));
 
-        Vector3 startPos = transform.position;
-        Vector3 centerPos = new Vector3(center.x, center.y, startPos.z);
+        originalPos = transform.position;
+        Vector3 centerPos = new Vector3(center.x, center.y, originalPos.z);
 
-        Sequence shuffleSequence = Sequence.Create()
-            .Chain(Tween.Position(transform, centerPos, ShuffleMoveDuration / 2f, Ease.InOutQuad))
-            .Group(Tween.Alpha(TileGraphic.Icon, 0f, ShuffleMoveDuration / 2f, Ease.Linear))
-            .Group(Tween.Alpha(TileGraphic.Bg, 0f, ShuffleMoveDuration / 2f, Ease.Linear))
-            .Chain(Tween.Position(transform, startPos, ShuffleMoveDuration / 2f, Ease.InOutQuad))
-            .Group(Tween.Alpha(TileGraphic.Icon, 1f, ShuffleMoveDuration / 2f, Ease.Linear))
-            .Group(Tween.Alpha(TileGraphic.Bg, 1f, ShuffleMoveDuration / 2f, Ease.Linear));
+        shuffleSequence = Sequence.Create()
+            .Chain(Tween.Position(transform, centerPos, shuffleInDuration, Ease.InOutQuad))
+            .Group(Tween.Alpha(TileGraphic.Icon, 0f, shuffleInDuration, Ease.Linear))
+            .Group(Tween.Alpha(TileGraphic.Bg, 0f, shuffleInDuration, Ease.Linear));
+    }
+
+    public void MoveOutShuffle()
+    {
+        shuffleSequence.Stop();
+
+        shuffleSequence = Sequence.Create()
+            .Chain(Tween.Position(transform, originalPos, shuffleOutDuration, Ease.InOutQuad))
+            .Group(Tween.Alpha(TileGraphic.Icon, 1f, shuffleOutDuration, Ease.Linear))
+            .Group(Tween.Alpha(TileGraphic.Bg, 1f, shuffleOutDuration, Ease.Linear));
     }
 
     private void ResetScale()

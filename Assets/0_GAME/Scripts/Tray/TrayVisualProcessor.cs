@@ -87,9 +87,10 @@ public class TrayVisualProcessor : MonoBehaviour
     {
         yield return null; //Đợi 1 frame để đảm bảo tile gọi được MoveToSlot
         yield return null; //Đợi thêm 1 frame để Tile thứ 4 cùng ID chạy MoveToSlot chèn sau cái Tile thứ 3 cùng ID trước khi Tile thứ 3 này Match3
-        yield return new WaitForSeconds(maxMoveDuration/*newTile.moveDuration + offsetDelayMatch3*/); //Đợi cho đến khi tile hoàn thành việc di chuyển
+        yield return new WaitForSeconds(maxMoveDuration/*newTile.moveDuration*/ + offsetDelayMatch3); //Đợi cho đến khi tile hoàn thành việc di chuyển
         //yield return new WaitForSeconds(0.2f);
         EatMatch3();
+        CheckWin();
     }
 
     private void EatMatch3()
@@ -124,6 +125,14 @@ public class TrayVisualProcessor : MonoBehaviour
             }
             else
                 count = 1;
+        }
+    }
+
+    private void CheckWin()
+    {
+        if (visualTilesInTray.Count == 0 && undoHistory.Count == 0 && match3Queue.Count == 0 && TileSpawner.Instance.tilesOnBoard.Count == 0)
+        {
+            Debug.Log("Win");
         }
     }
 

@@ -32,6 +32,7 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
         trayManager.CheckMatch3(newTile);
     }
 
+    #region Handle Undo Tile
     [Button]
     public void HandleUndoTile()
     {
@@ -62,8 +63,9 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
             visualTilesInTray[i].Slide(slots[i], 0.2f);
         }
     }
+    #endregion
 
-    //Test Auto Match3 V2
+    #region Magnet Tile 
     [Button]
     public void HandleAutoMatch3()
     {
@@ -198,7 +200,9 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
             yield return new WaitForSeconds(0.15f); // Đợi 0.15s rồi mới hút viên tiếp theo để tạo cảm giác nối đuôi
         }
     }
+    #endregion
 
+    #region Shuffle Tiles - Test
     //Test Shuffle Tiles
     [Button]
     public void HandleShuffle()
@@ -212,20 +216,25 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
 
         bool canShuffle = false;
 
-        for (int attempt = 0; attempt < 5; attempt++) // Thử shuffle tối đa 5 lần để tránh trường hợp hiếm gặp không có nước đi sau shuffle
+        for (int attempt = 0; attempt < 100; attempt++) // Thử shuffle tối đa 100 lần để tránh trường hợp hiếm gặp không có nước đi sau shuffle
         {
-            List<TileController> activeTiles = GetActiveTiles();
+            List<TileController> activeTiles = tileSpawner.tilesOnBoard;
             if (activeTiles.Count == 0) break; // Không có viên gạch nào trên bàn, thoát luôn
 
-            PlayShuffleTween(activeTiles);
-            yield return new WaitForSeconds(.5f); // Đợi tween kết thúc
+            PlayShuffleTweenIn(activeTiles);
+            yield return new WaitForSeconds(activeTiles[0].ShuffleInDuration); // chỉ đợi tween vào
 
             List<TileShuffleData> shuffleData = InitShuffleData(activeTiles);
             ShuffleData(shuffleData);
             ApplyShuffle(activeTiles, shuffleData);
 
             canShuffle = HasPlayableMatch();
-            if (canShuffle) break; // Nếu đã có nước đi sau shuffle thì thôi, không cần thử lại
+            if (canShuffle)
+            {
+                PlayShuffleTweenOut(activeTiles);
+                yield return new WaitForSeconds(activeTiles[0].ShuffleOutDuration); // Chỉ bay ra khi hợp lệ
+                break; // Nếu đã có nước đi sau shuffle thì thôi, không cần thử lại
+            }
         }
 
         InputManager.Instance.enabled = true;
@@ -248,7 +257,7 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
     }
 
     //2. Tween Shuffle
-    private void PlayShuffleTween(List<TileController> activeTiles)
+    private void PlayShuffleTweenIn(List<TileController> activeTiles)
     {
         if (activeTiles.Count == 0) return;
 
@@ -266,8 +275,14 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
 
         foreach (var tile in activeTiles)
         {
-            tile.MoveShuffle(center);
+            tile.MoveInShuffle(center);
         }
+    }
+
+    private void PlayShuffleTweenOut(List<TileController> activeTiles)
+    {
+        foreach (var tile in activeTiles)
+            tile.MoveOutShuffle();
     }
 
     //3. Lấy data của các active tile đó (ID + Sprite) vào 1 list tạm
@@ -302,60 +317,52 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
     private void ApplyShuffle(List<TileController> activeTiles, List<TileShuffleData> shuffleData)
     {
         for (int i = 0; i < activeTiles.Count; i++)
-        {
             activeTiles[i].SetupTileAfterShuffle(shuffleData[i].Id, shuffleData[i].Icon);
-        }
     }
 
     //6. Kiểm tra nếu sau khi shuffle vẫn còn bộ 3 nào đó để chơi thì mới cho phép shuffle, không thì thôi (tránh trường hợp shuffle xong mà hết nước đi)
+    //Test thử chỉ test duyệt trong clickableTiles xem có ID nào có thể kết hợp với khay để tạo thành
+    //bộ 3 không, sẽ nhanh hơn nhiều so với duyệt toàn bộ bàn cờ (đặc biệt khi bàn cờ có nhiều gạch)
     private bool HasPlayableMatch()
     {
         Dictionary<int, int> trayCounts = TrayManager.Instance.TrayDomain.GetTrayTileFrequencies();
-        Dictionary<int, int> boardCounts = tileSpawner.CountTilesEachId();
+        Dictionary<int, int> clickableCounts = new Dictionary<int, int>();
+        HashSet<TileController> visited = new HashSet<TileController>();
 
-        foreach (var pair in boardCounts)
+        foreach (var tile in tileSpawner.clickableTiles)
+        {
+            if (tile == null || !tile.gameObject.activeSelf) continue;
+
+            if (visited.Add(tile)) // Đảm bảo mỗi tile chỉ được đếm một lần
+                AddCount(clickableCounts, tile.TileData.Id);
+
+            foreach (var lowerTile in tile.TileData.LowerTiles)
+            {
+                if (lowerTile == null || !lowerTile.gameObject.activeSelf) continue;
+
+                if (visited.Add(lowerTile)) // Đảm bảo mỗi tile chỉ được đếm một lần
+                    AddCount(clickableCounts, lowerTile.TileData.Id);
+            }
+        }
+
+        foreach (var pair in clickableCounts)
         {
             int trayCount = trayCounts.ContainsKey(pair.Key) ? trayCounts[pair.Key] : 0;
 
             if (trayCount + pair.Value >= 3)
-            {
-                return true; // Có ít nhất một ID có thể tạo thành bộ 3
-            }
+                return true;
         }
 
-        return false; // Không có ID nào có thể tạo thành bộ 3
+        return false;
     }
 
-    //Test thử chỉ test duyệt trong clickableTiles xem có ID nào có thể kết hợp với khay để tạo thành
-    //bộ 3 không, sẽ nhanh hơn nhiều so với duyệt toàn bộ bàn cờ (đặc biệt khi bàn cờ có nhiều gạch)
-    //private bool HasPlayableMatch()
-    //{
-    //    Dictionary<int, int> trayCounts = TrayManager.Instance.TrayDomain.GetTrayTileFrequencies();
-    //    Dictionary<int, int> clickableCounts = new Dictionary<int, int>();
-
-    //    foreach (var tile in tileSpawner.clickableTiles)
-    //    {
-    //        if (tile == null || !tile.gameObject.activeSelf) continue;
-
-    //        int id = tile.TileData.Id;
-    //        if (clickableCounts.ContainsKey(id))
-    //            clickableCounts[id]++;
-    //        else
-    //            clickableCounts[id] = 1;
-    //    }
-
-    //    foreach (var pair in clickableCounts)
-    //    {
-    //        int trayCount = trayCounts.ContainsKey(pair.Key) ? trayCounts[pair.Key] : 0;
-
-    //        if (trayCount + pair.Value >= 3)
-    //        {
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
+    private void AddCount(Dictionary<int, int> dict, int id)
+    {
+        if (dict.ContainsKey(id))
+            dict[id]++;
+        else
+            dict[id] = 1;
+    }
 
     private struct TileShuffleData
     {
@@ -368,4 +375,5 @@ public class Tile_GameManager : Tile_Singleton<Tile_GameManager>
             Icon = icon;
         }
     }
+    #endregion  
 }
