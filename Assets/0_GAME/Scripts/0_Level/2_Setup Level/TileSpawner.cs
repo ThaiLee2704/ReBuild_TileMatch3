@@ -152,6 +152,8 @@ public class TileSpawner : Tile_Singleton<TileSpawner>
         }
 
         tilesOnBoard.Clear();
+        //Mới thêm
+        clickableTiles.Clear();
     }
     #endregion
 

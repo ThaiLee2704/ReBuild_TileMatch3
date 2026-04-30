@@ -64,6 +64,7 @@ public class TrayDomainProcessor : MonoBehaviour
         yield return null; //Đợi 1 frame để đảm bảo tile gọi được MoveToSlot
         yield return new WaitForSeconds(newTile.moveDuration + newTile.slideDuration);
         Debug.Log("GAME OVER");
+        Tile_UIManager.Instance.LosePopup.Show();
     }
 
     private void EatMatch3(TileController newTile)

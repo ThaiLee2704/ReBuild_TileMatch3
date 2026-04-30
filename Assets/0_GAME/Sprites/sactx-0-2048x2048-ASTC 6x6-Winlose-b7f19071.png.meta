@@ -121,7 +121,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: sactx-0-2048x2048-ASTC 6x6-Winlose-b7f19071_0
+      rect:
+        serializedVersion: 2
+        x: 1092
+        y: 18
+        width: 852
+        height: 858
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 184, y: 301, z: 188, w: 300}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 740e995b426242845aecbae7293472a2
+      internalID: 303439500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx-0-2048x2048-ASTC 6x6-Winlose-b7f19071_1
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 1548
+        width: 376
+        height: 308
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28326e873fff15243aa4dd38f64c90de
+      internalID: 1724923281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +174,9 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      sactx-0-2048x2048-ASTC 6x6-Winlose-b7f19071_0: 303439500
+      sactx-0-2048x2048-ASTC 6x6-Winlose-b7f19071_1: 1724923281
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

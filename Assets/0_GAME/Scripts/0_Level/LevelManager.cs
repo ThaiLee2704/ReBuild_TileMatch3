@@ -12,13 +12,24 @@ public class LevelManager : Tile_Singleton<LevelManager>
 
     protected override void Awake()
     {
+        base.Awake();
         currentLevel = level;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        LoadLevel();
+        GAME_EVENTS.OnPlayGameBtnClicked += LoadLevel;
     }
+
+    private void OnDisable()
+    {
+        GAME_EVENTS.OnPlayGameBtnClicked -= LoadLevel;
+    }
+
+    //private void Start()
+    //{
+    //    LoadLevel();
+    //}
 
     public void LoadLevel()
     {
@@ -51,7 +62,7 @@ public class LevelManager : Tile_Singleton<LevelManager>
         LoadLevel();
     }
 
-    private void ClearOldLevelData()
+    public void ClearOldLevelData()
     {
         TileSpawner.Instance.ClearTilesInLevel();
         TrayManager.Instance.ClearTray();

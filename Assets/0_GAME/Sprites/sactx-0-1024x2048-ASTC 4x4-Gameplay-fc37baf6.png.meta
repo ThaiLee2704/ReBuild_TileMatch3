@@ -131,7 +131,7 @@ TextureImporter:
         width: 160
         height: 174
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -152,7 +152,7 @@ TextureImporter:
         width: 123
         height: 123
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -160,6 +160,132 @@ TextureImporter:
       bones: []
       spriteID: 2f118b9d2b86c89419b01e1f35577335
       internalID: 1855495590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_2
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 1699
+        width: 113
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d6c135bf1ffcc742a6c4f3e99491c1c
+      internalID: 1552478452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_3
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 733
+        width: 99
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0c739fbb51b11c45a233acee6277ce0
+      internalID: -1599255933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_4
+      rect:
+        serializedVersion: 2
+        x: 846
+        y: 818
+        width: 87
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2671035332f9fb4e9f19f3fcf848c6b
+      internalID: -2083859813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_5
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1518
+        width: 176
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28f8442ce31e5ae4ca3ed048de292857
+      internalID: 708413045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1811
+        width: 172
+        height: 172
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d6b2960ccec5d84fab27baa6549636e
+      internalID: 1562610265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_7
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 1734
+        width: 77
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68203d909a303714aa5f1ced15dd6a9a
+      internalID: 25568012
       vertices: []
       indices: 
       edges: []
@@ -177,6 +303,12 @@ TextureImporter:
     nameFileIdTable:
       sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_0: 1008838622
       sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_1: 1855495590
+      sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_2: 1552478452
+      sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_3: -1599255933
+      sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_4: -2083859813
+      sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_5: 708413045
+      sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_6: 1562610265
+      sactx-0-1024x2048-ASTC 4x4-Gameplay-fc37baf6_7: 25568012
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
