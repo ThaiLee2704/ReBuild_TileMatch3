@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 5834650070173664221}
   - component: {fileID: 3767666028424182177}
   - component: {fileID: 7949904123191032721}
+  - component: {fileID: 7115059356905061431}
   m_Layer: 5
   m_Name: BoosterBtn
   m_TagString: Untagged
@@ -175,7 +176,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -196,3 +197,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7115059356905061431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072592409857710874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ca1da5bf5b4ca4db09a6f126eae7e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScaleFactor: 0.9
+  pressColor: {r: 1, g: 1, b: 1, a: 1}
+  pressDuration: 0.1
+  punchStrength: {x: 1, y: 1, z: 1}
+  punchDuration: 0.1
+  punchFrequency: 0.5

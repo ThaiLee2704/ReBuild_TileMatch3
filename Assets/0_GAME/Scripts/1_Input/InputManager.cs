@@ -39,24 +39,25 @@ public class InputManager : Tile_Singleton<InputManager>
         if (tile == null)
         {
             //Particle Empty Click
+            Tile_VFXManager.Instance.PlayEmptyClickPar(mouPos);
 
             currentTile = null;
             return;
         }
 
         //Particle Tile Click
-        tile.TileAnimation.PlayHoldTileAnim();
+        if (tile != null && !TrayManager.Instance.TrayDomain.IsFull)
+            tile.TileAnimation.PlayHoldTileAnim();
 
         currentTile = tile;
-
     }
 
     private void HandleMouseUpClick()
     {
         TileController tile = GetTile();
 
-        if (currentTile == null) 
-             return;
+        if (currentTile == null)
+            return;
 
         if (currentTile != tile)
         {

@@ -133,8 +133,17 @@ public class TrayVisualProcessor : MonoBehaviour
         if (visualTilesInTray.Count == 0 && undoHistory.Count == 0 && match3Queue.Count == 0 && TileSpawner.Instance.tilesOnBoard.Count == 0)
         {
             Debug.Log("Win");
-            Tile_UIManager.Instance.WinPopup.Show();
+            //Tile_UIManager.Instance.WinPopup.Show();
+            Tile_VFXManager.Instance.PlayFireWork();
+            StartCoroutine(IEShowWinPopup());
         }
+    }
+
+    IEnumerator IEShowWinPopup()
+    {
+        yield return new WaitForSeconds(3f);
+        Tile_VFXManager.Instance.StopFireWork();
+        Tile_UIManager.Instance.WinPopup.Show();
     }
 
     public void ClearVisualTray()

@@ -32,8 +32,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 654765110027018706}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.053000003, y: 0.22438203}
-  m_AnchorMax: {x: 0.947, y: 0.8653821}
+  m_AnchorMin: {x: 0.053000003, y: 0.19638203}
+  m_AnchorMax: {x: 0.947, y: 0.8373821}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1096087cf6e858e4abf05ef172e8ab76, type: 2}
+  m_sharedMaterial: {fileID: 8811216670267038977, guid: 1096087cf6e858e4abf05ef172e8ab76, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 8344547728545800662}
   - component: {fileID: 2010410665709633286}
   - component: {fileID: 6041769553433312153}
+  - component: {fileID: 2325046595325934145}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -234,7 +235,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -255,3 +256,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2325046595325934145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7418244978677076005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ca1da5bf5b4ca4db09a6f126eae7e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressScaleFactor: 0.9
+  pressColor: {r: 1, g: 1, b: 1, a: 1}
+  pressDuration: 0.1
+  punchStrength: {x: 1, y: 1, z: 1}
+  punchDuration: 0.1
+  punchFrequency: 0.5

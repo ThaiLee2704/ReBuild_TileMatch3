@@ -7,14 +7,19 @@ using UnityEngine.UI;
 public class MainMenuPanel : Puzzle_BasePanel
 {
     [Header("Buttons")]
-    [SerializeField] private Button PlayBtn;
+    [SerializeField] private Button playBtn;
+    [SerializeField] private Button settingBtn;
 
     [Header("Texts")]
     [SerializeField] private TextMeshProUGUI mainMenuLevelTxt;
 
+    [Header("Popups")]
+    [SerializeField] private MMSettingsPopup mmSettingsPopup;
+
     private void Awake()
     {
-        PlayBtn.onClick.AddListener(OnPlayBtnClicked);
+        playBtn.onClick.AddListener(OnPlayBtnClicked);
+        settingBtn.onClick.AddListener(OnSettingBtnClicked);
     }
 
     [Button]
@@ -23,5 +28,15 @@ public class MainMenuPanel : Puzzle_BasePanel
         GAME_EVENTS.OnPlayGameBtnClicked?.Invoke();
 
         Hide();
+    }
+
+    private void OnSettingBtnClicked()
+    {
+        mmSettingsPopup.Show();
+    }
+
+    private void UpdateMainMenuLevelTxt()
+    {
+        //mainMenuLevelTxt.text = $"Level + {}";
     }
 }
